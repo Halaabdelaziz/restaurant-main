@@ -32,6 +32,25 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            Route::group([
+                'middleware' => ['api', 'cors'],
+                'namespace' => $this->namespace,
+                'prefix' => 'api',
+            ], function ($router) {
+         
+                Route::get('/foods',[FoodController::class, "index"]);
+                Route::post('/foods',[FoodController::class, "store"]);
+                Route::get('/foods/{id}',[FoodController::class, "show"]);
+                Route::post('/foods/{id}',[FoodController::class, "update"]);
+                Route::delete('/foods/{id}',[FoodController::class, "destroy"]);
+               
+               
+                Route::get('/categories',[CategoryController::class, "index"]);
+                Route::post('/categories',[CategoryController::class, "store"]);
+                Route::get('/categories/{id}',[CategoryController::class, "show"]);
+                Route::post('/categories/{id}',[CategoryController::class, "update"]);
+                Route::delete('/categories/{id}',[CategoryController::class, "destroy"]);
+            });
             Route::prefix('api')
                 ->middleware('api')
                 ->group(base_path('routes/api.php'));
